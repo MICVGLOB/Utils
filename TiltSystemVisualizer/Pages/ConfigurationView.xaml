@@ -1,0 +1,176 @@
+﻿<UserControl x:Class="TiltSystemVisualizer.Pages.ConfigurationView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+      xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"               
+      xmlns:viewModels="clr-namespace:TiltSystemVisualizer.ViewModels"
+      xmlns:mcore="clr-namespace:Mvvm.Core"
+      xmlns:mvvm="clr-namespace:Mvvm"
+      xmlns:controls="clr-namespace:TiltSystemVisualizer.Controls"
+      xmlns:behav="clr-namespace:TiltSystemVisualizer.Behaviors"
+      xmlns:local="clr-namespace:TiltSystemVisualizer"                       
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="500">
+    <UserControl.DataContext>
+        <viewModels:ConfigurationViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Общие данные" Grid.ColumnSpan="2" Margin="10,10,10,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Адрес датчика" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Text="{Binding SensorAddress, Mode=TwoWay}" VerticalAlignment="Center" 
+                         Height="22" Padding="3,0,0,0" IsReadOnly="True" VerticalContentAlignment="Center"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="1" Grid.ColumnSpan="2" Header="Системное время" Margin="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding CurrentDateTime, StringFormat='d.MM.yyyy  HH:mm:ss', Mode=OneWay}" FontSize="20"/>
+                <Button Grid.Column="1" HorizontalAlignment="Right" Width="140" Margin="0,4,0,4" 
+                        Command="{Binding WriteDateTimeCommand}" Content="Установить время"/>
+
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="Конфигурация датчика" Padding="10" Margin="10,0,10,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="7*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Интервал измерения, мин" VerticalAlignment="Center"/>
+                <TextBox x:Name="MeasureInterval" Grid.Column="2" VerticalContentAlignment="Center" Height="22" Padding="3,0,0,0">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:IntegerValidationBehvior x:Name="MeasureIntervalBehavior" DefaultValue="1" MinValue="1" MaxValue="60" Value="{Binding MeasureInterval, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+                <TextBlock Text="Ось Х. Коэффициент по нулю" Grid.Column="4" VerticalAlignment="Center"/>
+                <TextBox x:Name="zeroX" Grid.Column="6" VerticalContentAlignment="Center" Height="22" Padding="3,0,0,0">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:IntegerValidationBehvior x:Name="zeroXBehavior" DefaultValue="10000" MinValue="5000" MaxValue="15000" Value="{Binding ZeroX, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+
+                <TextBlock Text="Интервал выдачи данных, мин" Grid.Row="2" VerticalAlignment="Center"/>
+                <TextBox x:Name="OutputInterval" Grid.Row="2" Grid.Column="2" VerticalContentAlignment="Center" Height="22" Padding="3,0,0,0">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:IntegerValidationBehvior x:Name="OutputIntervalBehavior" DefaultValue="2" MinValue="2" MaxValue="60" Value="{Binding OutputInterval, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+                <TextBlock Text="Ось Х. Коэффициент по шкале" Grid.Column="4" Grid.Row="2" VerticalAlignment="Center"/>
+                <TextBox x:Name="scaleX" Grid.Column="6" Grid.Row="2" VerticalContentAlignment="Center" Height="22" Padding="3,0,0,0">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:IntegerValidationBehvior x:Name="scaleXBehavior" DefaultValue="10000" MinValue="5000" MaxValue="15000" Value="{Binding ScaleX, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+
+                <TextBlock Text="Режим работы" Grid.Row="4" VerticalAlignment="Center"/>
+                <TextBox x:Name="ModeValue" Grid.Row="4" Grid.Column="2" VerticalContentAlignment="Center" Height="22" Padding="3,0,0,0">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:IntegerValidationBehvior x:Name="ModeValueBehavior" DefaultValue="1" MinValue="0" MaxValue="2" Value="{Binding ModeValue, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+                <TextBlock Text="Ось Y. Коэффициент по нулю" Grid.Column="4" Grid.Row="4" VerticalAlignment="Center"/>
+                <TextBox x:Name="zeroY" Grid.Column="6" Grid.Row="4" VerticalContentAlignment="Center" Height="22" Padding="3,0,0,0">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:IntegerValidationBehvior x:Name="zeroYBehavior" DefaultValue="10000" MinValue="5000" MaxValue="15000" Value="{Binding ZeroY, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+
+                <TextBlock Text="Угол предупреждения,°" Grid.Row="6" VerticalAlignment="Center"/>
+                <TextBox x:Name="NoticeAngle" Grid.Row="6" Grid.Column="2" VerticalContentAlignment="Center" Height="22" Padding="3,0,0,0">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:DoubleValidationBehvior x:Name="NoticeAngleBehavior" DefaultValue="3.0" MinValue="0.5" MaxValue="10.0" Value="{Binding NoticeAngle, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+                <TextBlock Text="Ось Y. Коэффициент по шкале" Grid.Column="4" Grid.Row="6" VerticalAlignment="Center"/>
+                <TextBox x:Name="scaleY" Grid.Column="6" Grid.Row="6" VerticalContentAlignment="Center" Height="22" Padding="3,0,0,0">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:IntegerValidationBehvior x:Name="scaleYBehavior" DefaultValue="10000" MinValue="5000" MaxValue="15000" Value="{Binding ScaleY, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+
+                <TextBlock Text="Угол опасного отклонения,°" Grid.Row="8" VerticalAlignment="Center"/>
+                <TextBox x:Name="UnsafeAngle" Grid.Row="8" Grid.Column="2" VerticalContentAlignment="Center" Height="22" Padding="3,0,0,0">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:DoubleValidationBehvior x:Name="UnsafeAngleBehavior" DefaultValue="6.0" MinValue="0.5" MaxValue="15.0" Value="{Binding UnsafeAngle, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+                <TextBlock Text="Ось Z. Коэффициент по нулю" Grid.Column="4" Grid.Row="8" VerticalAlignment="Center"/>
+                <TextBox x:Name="zeroZ" Grid.Column="6" Grid.Row="8" VerticalContentAlignment="Center" Height="22" Padding="3,0,0,0">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:IntegerValidationBehvior x:Name="zeroZBehavior" DefaultValue="10000" MinValue="5000" MaxValue="15000" Value="{Binding ZeroZ, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+                <TextBlock Text="Ось Z. Коэффициент по шкале" Grid.Column="4" Grid.Row="10" VerticalAlignment="Center"/>
+                <TextBox x:Name="scaleZ" Grid.Column="6" Grid.Row="10" VerticalContentAlignment="Center" Height="22" Padding="3,0,0,0">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:IntegerValidationBehvior x:Name="scaleZBehavior" DefaultValue="10000" MinValue="5000" MaxValue="15000" Value="{Binding ScaleZ, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+                <Button Content="Загрузить параметры" Grid.Row="12" Grid.RowSpan="5" Grid.ColumnSpan="3" Command="{Binding LoadParametersCommand}" VerticalAlignment="Center"/>
+                <Button Content="Загрузить калибровочные коэффициенты"  Grid.Row="12" Grid.RowSpan="5" Grid.Column="4" Grid.ColumnSpan="3" Command="{Binding LoadCalibrationCoefficientsCommand}" VerticalAlignment="Center"/>
+            </Grid>
+        </GroupBox>
+
+        <Border  Grid.ColumnSpan="2" BorderBrush="LightGray" BorderThickness="1" Grid.Row="3" Margin="10,0">
+            <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                 ScrollViewer.CanContentScroll="True" FontSize="11" IsReadOnly="True" IsReadOnlyCaretVisible="False"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <mcore:Interaction.Behaviors>
+                    <behav:TextBoxBehavior x:Name="textBoxBehavior" AppendTextCommand="{Binding AppendTextCommand, Mode=OneWayToSource}"
+                                              ClearCommand="{Binding Command, ElementName=clearButton, Mode=OneWayToSource}"/>
+                </mcore:Interaction.Behaviors>
+            </TextBox>
+        </Border>
+        <Button x:Name="cancelButton" Grid.Row="4" HorizontalAlignment="Stretch" Content="Отменить операцию" Command="{Binding CancelCommand}" Margin="10"/>
+        <Button x:Name="clearButton" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" Content="Очистить" Margin="0,10,10,10" 
+                IsEnabled="{Binding OperationInProgress, Mode=OneWay, Converter={mcore:BooleanNegationConverter}}"/>
+    </Grid>
+</UserControl>

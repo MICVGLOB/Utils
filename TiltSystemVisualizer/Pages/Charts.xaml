@@ -1,0 +1,218 @@
+﻿<UserControl x:Class="TiltSystemVisualizer.Pages.Charts"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+      xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" 
+      xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"       
+      xmlns:viewModels="clr-namespace:TiltSystemVisualizer.ViewModels"
+      xmlns:mcore="clr-namespace:Mvvm.Core"
+      xmlns:mvvm="clr-namespace:Mvvm"
+      xmlns:controls="clr-namespace:TiltSystemVisualizer.Controls"             
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="500">
+    <UserControl.DataContext>
+        <viewModels:ChartsViewModel/>
+    </UserControl.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="184"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="184"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="184"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="184"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Margin="0,0,10,0">
+            <dxe:ComboBoxEdit x:Name="shelfSelector1" Margin="0,0,0,10"
+                              ItemsSource="{Binding MainViewModel.Shelfs}"
+                              SelectedItem="{Binding SelectedShelf1, Mode=TwoWay}"
+                              DisplayMember="Name" AllowNullInput="False"                              
+                              SelectedIndex="0"
+                              IsTextEditable="False"/>
+            <dxe:ComboBoxEdit x:Name="sensorSelector1" Margin="0,0,0,10"
+                              ItemsSource="{Binding SelectedShelf1.ActiveSensors}"
+                              DisplayMember="Description" AllowNullInput="False"                              
+                              SelectedItem="{Binding SelectedSensor1, Mode=TwoWay}"
+                              IsTextEditable="False"
+                              IsEnabled="{Binding SelectedShelf1.ActiveSensors, Converter={controls:ItemsSourceToEnableConverter}}"/>
+            <Button x:Name="clearHistory1" Content="Стереть историю" Command="{Binding ClearHistory1Command}"/>
+        </StackPanel>
+
+
+        <StackPanel Margin="0,0,10,0" Grid.Row="2">
+            <dxe:ComboBoxEdit x:Name="shelfSelector2" Margin="0,0,0,10"
+                              ItemsSource="{Binding MainViewModel.Shelfs}"
+                              SelectedItem="{Binding SelectedShelf2, Mode=TwoWay}"
+                              DisplayMember="Name" AllowNullInput="False"                              
+                              SelectedIndex="0" 
+                              IsTextEditable="False"/>
+            <dxe:ComboBoxEdit x:Name="sensorSelector2" Margin="0,0,0,10"
+                              ItemsSource="{Binding SelectedShelf2.ActiveSensors}"
+                              DisplayMember="Description" AllowNullInput="False"                              
+                              SelectedItem="{Binding SelectedSensor2, Mode=TwoWay}"
+                              IsTextEditable="False"
+                              IsEnabled="{Binding SelectedShelf2.ActiveSensors, Converter={controls:ItemsSourceToEnableConverter}}"/>
+            <Button x:Name="clearHistory2" Content="Стереть историю" Command="{Binding ClearHistory2Command}"/>
+        </StackPanel>
+
+        <StackPanel Margin="0,0,10,0" Grid.Row="4">
+            <dxe:ComboBoxEdit x:Name="shelfSelector3" Margin="0,0,0,10"
+                              ItemsSource="{Binding MainViewModel.Shelfs}"
+                              SelectedItem="{Binding SelectedShelf3, Mode=TwoWay}"
+                              DisplayMember="Name" AllowNullInput="False"                              
+                              SelectedIndex="0" 
+                              IsTextEditable="False"/>
+            <dxe:ComboBoxEdit x:Name="sensorSelector3" Margin="0,0,0,10"
+                              ItemsSource="{Binding SelectedShelf3.ActiveSensors}"
+                              DisplayMember="Description" AllowNullInput="False"                              
+                              SelectedItem="{Binding SelectedSensor3, Mode=TwoWay}"
+                              IsTextEditable="False"
+                              IsEnabled="{Binding SelectedShelf3.ActiveSensors, Converter={controls:ItemsSourceToEnableConverter}}"/>
+            <Button x:Name="clearHistory3" Content="Стереть историю" Command="{Binding ClearHistory3Command}"/>
+        </StackPanel>
+        <dxc:ChartControl Grid.Column="1" ToolTipEnabled="True" 
+                          IsEnabled="{Binding SelectedShelf1.ActiveSensors, Converter={controls:ItemsSourceToEnableConverter}}">
+            <dxc:XYDiagram2D EnableAxisXNavigation="True">
+                <dxc:XYDiagram2D.AxisX>
+                    <dxc:AxisX2D>
+                        <dxc:AxisX2D.DateTimeScaleOptions>
+                            <dxc:ManualDateTimeScaleOptions GridSpacing="20" MeasureUnit="Second" GridAlignment="Second" />
+                        </dxc:AxisX2D.DateTimeScaleOptions>
+                    </dxc:AxisX2D>
+                </dxc:XYDiagram2D.AxisX>
+                <dxc:XYDiagram2D.AxisY>
+                    <dxc:AxisY2D TitlePosition="Outside" LabelPosition="Outside" LabelAlignment="Far" Alignment="Near">
+                        <dxc:AxisY2D.NumericScaleOptions>
+                            <dxc:ContinuousNumericScaleOptions AutoGrid="False" GridSpacing="5"/>
+                        </dxc:AxisY2D.NumericScaleOptions>
+                        <dxc:AxisY2D.WholeRange>
+                            <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="False"/>
+                        </dxc:AxisY2D.WholeRange>
+                        <dxc:AxisY2D.Label>
+                            <dxc:AxisLabel TextPattern="{}{V:F2} °" FontSize="10"/>
+                        </dxc:AxisY2D.Label>
+                        <dxc:AxisY2D.Title>
+                            <dxc:AxisTitle Content="Наклон, °" Visible="True" Alignment="Center" FontSize="12"/>
+                        </dxc:AxisY2D.Title>
+                    </dxc:AxisY2D>
+                </dxc:XYDiagram2D.AxisY>
+                <dxc:LineSeries2D DataSource="{Binding SelectedSensor1.Tilts}" ArgumentDataMember="CreatedTime" 
+                                  ValueDataMember="Gravity" ArgumentScaleType="DateTime" 
+                                  ValueScaleType="Numerical" CrosshairLabelPattern="{}{V:F2}° : [{A}]">
+                    <dxc:LineSeries2D.LineStyle>
+                        <dxc:LineStyle Thickness="2" />
+                    </dxc:LineSeries2D.LineStyle>
+                </dxc:LineSeries2D>
+            </dxc:XYDiagram2D>
+            <dxc:ChartControl.ToolTipOptions>
+                <dxc:ToolTipOptions ShowForSeries="False" ShowHint="False" ShowForPoints="False"/>
+            </dxc:ChartControl.ToolTipOptions>
+        </dxc:ChartControl>
+        <dxc:ChartControl Grid.Row="2" Grid.Column="1" ToolTipEnabled="True" 
+                          IsEnabled="{Binding SelectedShelf2.ActiveSensors, Converter={controls:ItemsSourceToEnableConverter}}">
+            <dxc:XYDiagram2D EnableAxisXNavigation="True">
+                <dxc:XYDiagram2D.AxisX>
+                    <dxc:AxisX2D>
+                        <dxc:AxisX2D.DateTimeScaleOptions>
+                            <dxc:ManualDateTimeScaleOptions GridSpacing="20" MeasureUnit="Second" GridAlignment="Second" />
+                        </dxc:AxisX2D.DateTimeScaleOptions>
+                    </dxc:AxisX2D>
+                </dxc:XYDiagram2D.AxisX>
+                <dxc:XYDiagram2D.AxisY>
+                    <dxc:AxisY2D TitlePosition="Outside" LabelPosition="Outside" LabelAlignment="Far" Alignment="Near">
+                        <dxc:AxisY2D.NumericScaleOptions>
+                            <dxc:ContinuousNumericScaleOptions AutoGrid="False" GridSpacing="5"/>
+                        </dxc:AxisY2D.NumericScaleOptions>
+                        <dxc:AxisY2D.WholeRange>
+                            <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="False"/>
+                        </dxc:AxisY2D.WholeRange>
+                        <dxc:AxisY2D.Label>
+                            <dxc:AxisLabel TextPattern="{}{V:F2} °" FontSize="10"/>
+                        </dxc:AxisY2D.Label>
+                        <dxc:AxisY2D.Title>
+                            <dxc:AxisTitle Content="Наклон, °" Visible="True" Alignment="Center" FontSize="12"/>
+                        </dxc:AxisY2D.Title>
+                    </dxc:AxisY2D>
+                </dxc:XYDiagram2D.AxisY>
+                <dxc:LineSeries2D DataSource="{Binding SelectedSensor2.Tilts}" ArgumentDataMember="DateTime" 
+                                  ValueDataMember="Gravity" ArgumentScaleType="DateTime" 
+                                  ValueScaleType="Numerical" CrosshairLabelPattern="{}{V:F2}° : [{A}]">
+                    <dxc:LineSeries2D.LineStyle>
+                        <dxc:LineStyle Thickness="2" />
+                    </dxc:LineSeries2D.LineStyle>
+                </dxc:LineSeries2D>
+            </dxc:XYDiagram2D>
+            <dxc:ChartControl.ToolTipOptions>
+                <dxc:ToolTipOptions ShowForSeries="False" ShowHint="False" ShowForPoints="False"/>
+            </dxc:ChartControl.ToolTipOptions>
+        </dxc:ChartControl>
+        <dxc:ChartControl Grid.Row="4" Grid.Column="1" ToolTipEnabled="True" 
+                          IsEnabled="{Binding SelectedShelf3.ActiveSensors, Converter={controls:ItemsSourceToEnableConverter}}">
+            <dxc:XYDiagram2D EnableAxisXNavigation="True">
+                <dxc:XYDiagram2D.AxisX>
+                    <dxc:AxisX2D>
+                        <dxc:AxisX2D.DateTimeScaleOptions>
+                            <dxc:ManualDateTimeScaleOptions GridSpacing="20" MeasureUnit="Second" GridAlignment="Second" />
+                        </dxc:AxisX2D.DateTimeScaleOptions>
+                    </dxc:AxisX2D>
+                </dxc:XYDiagram2D.AxisX>
+                <dxc:XYDiagram2D.AxisY>
+                    <dxc:AxisY2D TitlePosition="Outside" LabelPosition="Outside" LabelAlignment="Far" Alignment="Near">
+                        <dxc:AxisY2D.NumericScaleOptions>
+                            <dxc:ContinuousNumericScaleOptions AutoGrid="False" GridSpacing="5"/>
+                        </dxc:AxisY2D.NumericScaleOptions>
+                        <dxc:AxisY2D.WholeRange>
+                            <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="False" />
+                        </dxc:AxisY2D.WholeRange>
+                        <dxc:AxisY2D.Label>
+                            <dxc:AxisLabel TextPattern="{}{V:F2} °" FontSize="10"/>
+                        </dxc:AxisY2D.Label>
+                        <dxc:AxisY2D.Title>
+                            <dxc:AxisTitle Content="Наклон, °" Visible="True" Alignment="Center" FontSize="12"/>
+                        </dxc:AxisY2D.Title>
+                    </dxc:AxisY2D>
+                </dxc:XYDiagram2D.AxisY>
+                <dxc:LineSeries2D DataSource="{Binding SelectedSensor3.Tilts}" ArgumentDataMember="DateTime" 
+                                  ValueDataMember="Gravity" ArgumentScaleType="DateTime" 
+                                  ValueScaleType="Numerical" CrosshairLabelPattern="{}{V:F2}° : [{A}]">
+                    <dxc:LineSeries2D.LineStyle>
+                        <dxc:LineStyle Thickness="2" />
+                    </dxc:LineSeries2D.LineStyle>
+                </dxc:LineSeries2D>
+            </dxc:XYDiagram2D>
+            <dxc:ChartControl.ToolTipOptions>
+                <dxc:ToolTipOptions ShowForSeries="False" ShowHint="False" ShowForPoints="False"/>
+            </dxc:ChartControl.ToolTipOptions>
+        </dxc:ChartControl>
+
+        <controls:TiltViewControl Grid.Column="2" 
+                                  Tilt="{Binding SelectedSensor1.CurrentTilt}"
+                                  NoticeRange="{Binding SelectedSensor1.NoticeRange}"
+                                  UnsafeRange="{Binding SelectedSensor1.UnsafeRange}"                                  
+                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                  IsEnabled="{Binding SelectedShelf1.ActiveSensors, Converter={controls:ItemsSourceToEnableConverter}}"/>
+        <controls:TiltViewControl Grid.Column="2" Grid.Row="2"
+                                  Tilt="{Binding SelectedSensor2.CurrentTilt}"
+                                  NoticeRange="{Binding SelectedSensor2.NoticeRange}"
+                                  UnsafeRange="{Binding SelectedSensor2.UnsafeRange}"                                  
+                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                  IsEnabled="{Binding SelectedShelf2.ActiveSensors, Converter={controls:ItemsSourceToEnableConverter}}"/>
+        <controls:TiltViewControl Grid.Column="2" Grid.Row="4"
+                                  Tilt="{Binding SelectedSensor3.CurrentTilt}"
+                                  NoticeRange="{Binding SelectedSensor3.NoticeRange}"
+                                  UnsafeRange="{Binding SelectedSensor3.UnsafeRange}"                                  
+                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                  IsEnabled="{Binding SelectedShelf3.ActiveSensors, Converter={controls:ItemsSourceToEnableConverter}}"/>
+        <Button x:Name="clearAll" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Content="Стереть всю историю" Command="{Binding ClearAllHistoryCommand}"/>
+    </Grid>
+</UserControl>

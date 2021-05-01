@@ -1,0 +1,173 @@
+﻿<Window x:Class="StmFlashLoader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:Mvvm.ViewModels"
+        xmlns:ccore="clr-namespace:Controls.Core"
+        xmlns:mcore="clr-namespace:Mvvm.Core"
+        xmlns:mvvm="clr-namespace:Mvvm"
+        xmlns:lcore="clr-namespace:StmFlashLoader.LoaderCore"
+        xmlns:local="clr-namespace:StmFlashLoader"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        ResizeMode="CanMinimize"
+        SizeToContent="WidthAndHeight"
+        Title="Универсальный загрузчик STM32F (v. 2.1, март 2019 г.)" Height="520" Width="760">
+
+    <Window.DataContext>
+        <viewModels:MainViewModel x:Name="viewModel"/>
+    </Window.DataContext>
+    <Window.Resources>
+        
+    </Window.Resources>
+    
+    <Grid Margin="5" UseLayoutRounding="True" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Программирование" Grid.RowSpan="3" Padding="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Button Content="Файл" Command="{Binding SelectFileCommand}"/>
+                <Button Content="Загрузить" Grid.Column="3"  Command="{Binding LoadFlashCommand}"/>
+
+                <TextBox Grid.Row="2" Grid.ColumnSpan="4" IsReadOnly="True" Text="{Binding FilePath}" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+
+                <TextBox Grid.Row="4" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                 ScrollViewer.CanContentScroll="True" FontSize="11" IsReadOnly="True" IsReadOnlyCaretVisible="False"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="275">
+                    <mcore:Interaction.Behaviors>
+                        <mvvm:TextBoxBehavior x:Name="textBoxBehavior" AppendTextCommand="{Binding AppendTextCommand, Mode=OneWayToSource}"
+                                              ClearCommand="{Binding ClearTextCommand, Mode=OneWayToSource}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+                <TextBlock Grid.Row="6" Grid.ColumnSpan="2" Text="Тип микроконтроллера" VerticalAlignment="Center"/>
+                <ComboBox Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" DisplayMemberPath="DisplayName" 
+                          SelectedIndex="0" ItemsSource="{x:Static lcore:McuInfoCreator.Info}"
+                          SelectedItem="{Binding McuConfig}"/>
+                <TextBlock Grid.Row="8" Grid.ColumnSpan="2" Text="Скорость загрузки, бит/с" VerticalAlignment="Center"/>
+                <ComboBox Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" SelectedIndex="3" IsEnabled="{Binding AllowBaudrateSelector}" 
+                          SelectedItem="{Binding Baudrate, Mode=TwoWay}">
+                    <sys:Int32>9600</sys:Int32>
+                    <sys:Int32>19200</sys:Int32>
+                    <sys:Int32>38400</sys:Int32>
+                    <sys:Int32>57600</sys:Int32>
+                </ComboBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Устройство" Grid.Column="2" Padding="10">
+            <Grid x:Name="h2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Адрес" VerticalAlignment="Center"/>
+                <TextBox x:Name="address" Grid.Column="1" Height="22" VerticalContentAlignment="Center" Padding="3,0,0,0">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:IntegerValidationBehvior x:Name="addressBehavior" DefaultValue="10" MinValue="1" MaxValue="127" Value="{Binding Address, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+                <TextBlock Grid.Row="2" Text="Серийный номер" VerticalAlignment="Center"/>
+                <TextBox x:Name="serialNumber" Grid.Row="2" Grid.Column="1" Height="22" VerticalContentAlignment="Center" Padding="3,0,0,0">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:IntegerValidationBehvior x:Name="serialNumberBehavior" DefaultValue="0" MinValue="0"  MaxValue="65535" Value="{Binding Serial, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+                <Button Grid.Row="4" Grid.ColumnSpan="2" Content="Читать серийный номер" Command="{Binding ReadSerialCommand}"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Grid.Column="2" Padding="10" Margin="0,5,0,5">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Идентификаторы" Margin="0,0,7,0"/>
+                    <CheckBox x:Name="idChecker" Margin="0,2,0,0"/>
+                </StackPanel>
+            </GroupBox.Header>
+            <Grid IsEnabled="{Binding ElementName=idChecker, Path=IsChecked}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Адрес" VerticalAlignment="Center"/>
+                <TextBox x:Name="newAddress" Grid.Column="1" Height="22" VerticalContentAlignment="Center" Padding="3,0,0,0">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:IntegerValidationBehvior x:Name="newAddressBehavior" DefaultValue="10" MinValue="1" 
+                                                        MaxValue="127" Value="{Binding NewAddress, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+                <Button Grid.Row="2" Grid.ColumnSpan="2" Content="Изменить адрес" Command="{Binding ChangeAddressCommand}"/>
+
+
+                <TextBlock Grid.Row="4" Text="Серийный номер" VerticalAlignment="Center"/>
+                <TextBox x:Name="newSerialNumber" Grid.Row="4" Grid.Column="1" Height="22" VerticalContentAlignment="Center" Padding="3,0,0,0">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:IntegerValidationBehvior x:Name="newSerialNumberBehavior" DefaultValue="0" MinValue="0"  
+                                                        MaxValue="65535" Value="{Binding NewSerial, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+                <Button Grid.Row="6" Grid.ColumnSpan="2" Content="Изменить номер" Command="{Binding ChangeSerialCommand}"/>
+            </Grid>
+        </GroupBox>
+        <ccore:SerialPortControl x:Name="serialPortControl" Grid.Row="2" Grid.Column="2"
+                                 TransmitUnit="{Binding TransmitUnit, Mode=OneWay}" 
+                                 ReceiveUnit="{Binding ReceiveUnit, Mode=TwoWay}"
+                                 IsCancel="{Binding IsCancelSerialPortOperation, Mode=TwoWay}"
+                                 IsNormalStateCancel="{Binding IsNormalStateCancelSerialPortOperation, Mode=TwoWay}"
+                                 HasPorts="{Binding HasPorts, Mode=TwoWay}"
+                                 Baudrate="{Binding SerialPortBaudrate, Mode=OneWay}"
+                                 IsEnabled="{Binding ElementName=waitUsbConnect, Path=IsChecked, Converter={mcore:BooleanNegationConverter}}"
+                                 Ports="{Binding SerialPorts, Mode=TwoWay}"
+                                 SelectedPort="{Binding SelectedPort, Mode=TwoWay}"/>
+        <TextBlock Grid.Row="3" Margin="10" Text="(с) АО &quot;Техно-Т&quot; г. Тула 2019 г."/>
+        <CheckBox x:Name="waitUsbConnect" Grid.Row="3" Grid.Column="2" Margin="10" Content="Ждать USB подключения"
+                  IsChecked="{Binding WaitUsbConnect, Mode=TwoWay}">
+            <CheckBox.IsEnabled>
+                <MultiBinding Converter="{mvvm:WaitUsbMultiConverter}">
+                    <Binding Path="InProgress"/>
+                    <Binding Path="IsChecked" RelativeSource="{RelativeSource Self}"/>
+                </MultiBinding>
+            </CheckBox.IsEnabled>
+        </CheckBox>
+    </Grid>
+</Window>

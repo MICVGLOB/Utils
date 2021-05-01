@@ -1,0 +1,148 @@
+﻿<Window x:Class="StreamCorrector.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:Mvvm.ViewModels"
+        xmlns:ccore="clr-namespace:Controls.Core"
+        xmlns:mcore="clr-namespace:Mvvm.Core"
+        xmlns:mvvm="clr-namespace:Mvvm"
+        xmlns:local="clr-namespace:StreamCorrector"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        mc:Ignorable="d"
+        Title="{Binding CorrectorHeader}" Height="320" Width="550">
+
+    <Window.DataContext>
+        <viewModels:MainViewModel x:Name="viewModel"/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <Style x:Key="textBlockStyle" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+        <Style x:Key="textBoxStyle" TargetType="TextBox">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+            <Setter Property="Padding" Value="3,0,0,0"/>
+            <Setter Property="Height" Value="22"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="5" UseLayoutRounding="True" HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding CorrectorDescription}" VerticalAlignment="Center" TextWrapping="Wrap" Margin="10"/>
+        <GroupBox Grid.Row="1" Header="Регистры" Padding="10" Margin="10,0,10,10" IsEnabled="{Binding InProgress, Converter={mcore:BooleanNegationConverter}}">
+            <GroupBox.Visibility>
+                <MultiBinding Converter="{mvvm:BoolToVisibilityMultiConverter}">
+                    <Binding Path="WantToAsk_Reg0"/>
+                    <Binding Path="WantToAsk_Reg1"/>
+                    <Binding Path="WantToAsk_Reg2"/>
+                    <Binding Path="WantToAsk_Reg3"/>
+                </MultiBinding>
+            </GroupBox.Visibility>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="{Binding WantToAsk_Reg1, Converter={mvvm:BooleanToHeightConverter Height=10}}"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="{Binding WantToAsk_Reg2, Converter={mvvm:BooleanToHeightConverter Height=10}}"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="{Binding WantToAsk_Reg3, Converter={mvvm:BooleanToHeightConverter Height=10}}"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Description_Reg0}" VerticalAlignment="Center" TextWrapping="Wrap"
+                           Visibility="{Binding WantToAsk_Reg0, Converter={mcore:BooleanToVisibilityConverter}}"/>
+                <TextBox x:Name="reg0" Grid.Column="1" Style="{StaticResource textBoxStyle}" Margin="0"
+                         Visibility="{Binding WantToAsk_Reg0, Converter={mcore:BooleanToVisibilityConverter}}">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:DoubleValidationBehvior x:Name="reg0Behavior"
+                                                        Precision="{Binding InputValuePrecision_Reg0}"
+                                                        MinValue="{Binding InputValueMin_Reg0}"
+                                                        MaxValue="{Binding InputValueMax_Reg0}"
+                                                        DefaultValue="{Binding InputValueDefault_Reg0}" 
+                                                        Value="{Binding InputValueBindable_Reg0, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+                <TextBlock Grid.Row="2" Text="{Binding Description_Reg1}" VerticalAlignment="Center" TextWrapping="Wrap"
+                           Visibility="{Binding WantToAsk_Reg1, Converter={mcore:BooleanToVisibilityConverter}}"/>
+                <TextBox x:Name="reg1" Grid.Row="2" Grid.Column="1" Style="{StaticResource textBoxStyle}" Margin="0"
+                         Visibility="{Binding WantToAsk_Reg1, Converter={mcore:BooleanToVisibilityConverter}}">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:DoubleValidationBehvior x:Name="reg1Behavior"
+                                                        Precision="{Binding InputValuePrecision_Reg1}"
+                                                        MinValue="{Binding InputValueMin_Reg1}"
+                                                        MaxValue="{Binding InputValueMax_Reg1}"
+                                                        DefaultValue="{Binding InputValueDefault_Reg1}" 
+                                                        Value="{Binding InputValueBindable_Reg1, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+                <TextBlock Grid.Row="4" Text="{Binding Description_Reg2}" VerticalAlignment="Center" TextWrapping="Wrap"
+                           Visibility="{Binding WantToAsk_Reg2, Converter={mcore:BooleanToVisibilityConverter}}"/>
+                <TextBox x:Name="reg2"  Grid.Row="4" Grid.Column="1" Style="{StaticResource textBoxStyle}" Margin="0"
+                         Visibility="{Binding WantToAsk_Reg2, Converter={mcore:BooleanToVisibilityConverter}}">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:DoubleValidationBehvior x:Name="reg2Behavior"
+                                                        Precision="{Binding InputValuePrecision_Reg2}"
+                                                        MinValue="{Binding InputValueMin_Reg2}"
+                                                        MaxValue="{Binding InputValueMax_Reg2}"
+                                                        DefaultValue="{Binding InputValueDefault_Reg2}" 
+                                                        Value="{Binding InputValueBindable_Reg2, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+                <TextBlock Grid.Row="6" Text="{Binding Description_Reg3}" VerticalAlignment="Center" TextWrapping="Wrap"
+                           Visibility="{Binding WantToAsk_Reg3, Converter={mcore:BooleanToVisibilityConverter}}"/>
+                <TextBox x:Name="reg3" Grid.Row="6" Grid.Column="1" Style="{StaticResource textBoxStyle}" Margin="0"
+                         Visibility="{Binding WantToAsk_Reg3, Converter={mcore:BooleanToVisibilityConverter}}">
+                    <mcore:Interaction.Behaviors>
+                        <mcore:DoubleValidationBehvior x:Name="reg3Behavior"
+                                                        Precision="{Binding InputValuePrecision_Reg3}"
+                                                        MinValue="{Binding InputValueMin_Reg3}"
+                                                        MaxValue="{Binding InputValueMax_Reg3}"
+                                                        DefaultValue="{Binding InputValueDefault_Reg3}" 
+                                                        Value="{Binding InputValueBindable_Reg3, Mode=TwoWay}"/>
+                    </mcore:Interaction.Behaviors>
+                </TextBox>
+            </Grid>
+        </GroupBox>
+        <Button Grid.Row="2" Margin="10,0,10,12" Height="40" Content="Корректировать" Command="{Binding UpdateCommand}"/>
+        <StackPanel Grid.RowSpan="3" Grid.Column="1" Margin="0,10,10,10" VerticalAlignment="Bottom">
+            <GroupBox Header="Расходомер" Padding="10" IsEnabled="{Binding InProgress, Converter={mcore:BooleanNegationConverter}}" 
+                      Visibility="{Binding WantToAskBridgeAddress, Converter={mcore:BooleanToVisibilityConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Адрес БИТТ" VerticalAlignment="Center"/>
+                    <TextBox x:Name="bittAddress" Grid.Column="1" Style="{StaticResource textBoxStyle}" Margin="0">
+                        <mcore:Interaction.Behaviors>
+                            <mcore:IntegerValidationBehvior x:Name="bittAddressBehavior" MinValue="1" DefaultValue="{Binding ModbusBridgeAddressBindableDefault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxValue="127" Value="{Binding ModbusBridgeAddressBindable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </mcore:Interaction.Behaviors>
+                    </TextBox>
+                </Grid>
+            </GroupBox>
+            <ccore:SerialPortControl x:Name="serialPortControl"
+                                     TransmitUnit="{Binding TransmitUnit, Mode=OneWay}" 
+                                     ReceiveUnit="{Binding ReceiveUnit, Mode=TwoWay}"
+                                     IsCancel="{Binding IsCancelSerialPortOperation, Mode=TwoWay}"
+                                     HasPorts="{Binding HasPorts, Mode=TwoWay}"/>
+        </StackPanel>
+        <TextBox Grid.Row="3" Grid.ColumnSpan="2" Margin="10,0,10,10" IsReadOnly="True" Text="{Binding UpdateStatusString}"
+                 Foreground="{Binding UpdateStatus, Converter={mvvm:UpdateStatusToBrushConverter}, Mode=OneWay}"/>
+    </Grid>
+</Window>

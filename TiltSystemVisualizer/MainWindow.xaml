@@ -1,0 +1,57 @@
+﻿<dx:ThemedWindow x:Class="TiltSystemVisualizer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+        xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+        xmlns:viewModels="clr-namespace:TiltSystemVisualizer.ViewModels"
+        xmlns:controls="clr-namespace:TiltSystemVisualizer.Controls"
+        xmlns:mcore="clr-namespace:Mvvm.Core"
+        xmlns:behav="clr-namespace:TiltSystemVisualizer.Behaviors"
+        xmlns:local="clr-namespace:TiltSystemVisualizer"
+        xmlns:pages="clr-namespace:TiltSystemVisualizer.Pages"                 
+        mc:Ignorable="d"
+        ResizeMode="CanMinimize"
+        dx:ThemeManager.ThemeName="Office2019Colorful" 
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Icon="Shelfs.ico"
+        Title="Склад контроль безопасности. АО &quot;Техно-Т&quot;, 2020 г. " Height="700" Width="1000">
+    <dx:ThemedWindow.DataContext>
+        <viewModels:MainViewModel x:Name="viewModel"/>
+    </dx:ThemedWindow.DataContext>
+
+    <dx:ThemedWindow.HeaderItems>
+        <controls:WindowHeaderContentControl IsConnectOk="{Binding IsConnectOk}"/>
+    </dx:ThemedWindow.HeaderItems>
+
+    <mcore:Interaction.Behaviors>
+        <mcore:SerialPortBehavior AllowPort="{Binding AllowPort}" 
+                                  Config="{Binding SerialPortConfig}" TerminalMode="True" 
+                                  ReceiveTerminalData="{Binding ReceivedData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  TransmitTerminalData="{Binding TransmittedData, Mode=TwoWay}"
+                                  MessageLength="{Binding MessageLength}"/>
+    </mcore:Interaction.Behaviors>
+
+    <Grid Margin="2" >
+        <TabControl SelectedIndex="1" x:Name="TabControl">
+            <TabItem Header="Схема">
+                <pages:SummaryView MainViewModel="{Binding ElementName=viewModel, Mode=OneWay}"/>
+            </TabItem>
+            <TabItem Header="Графики">
+                <pages:Charts MainViewModel="{Binding ElementName=viewModel, Mode=OneWay}" VerticalAlignment="Center"/>
+            </TabItem>
+            <TabItem Header="Отчеты">
+                <pages:ReportsView MainViewModel="{Binding ElementName=viewModel, Mode=OneWay}" VerticalAlignment="Stretch"/>
+            </TabItem>
+            <TabItem Header="Калибровка датчиков">
+                <pages:ConfigurationView MainViewModel="{Binding ElementName=viewModel, Mode=OneWay}" VerticalAlignment="Stretch"/>
+            </TabItem>
+        </TabControl>
+        <!--<dxb:ToolBarControl Caption="Main Toolbar" BarItemHorizontalIndent="10" HorizontalAlignment="Right">
+            <dxb:BarButtonItem Content="hello"/>
+        </dxb:ToolBarControl>-->
+    </Grid>
+</dx:ThemedWindow>
+

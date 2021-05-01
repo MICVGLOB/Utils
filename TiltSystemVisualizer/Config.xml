@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TiltSystemVisualizer>
+	<SerialPort>
+		<Name>COM5</Name>
+		<BaudRate>9600</BaudRate>
+		<StopBits>One</StopBits>
+		<Parity>None</Parity>
+	</SerialPort>
+</TiltSystemVisualizer>

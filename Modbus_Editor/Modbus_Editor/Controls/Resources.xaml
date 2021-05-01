@@ -1,0 +1,296 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mvvm="clr-namespace:Mvvm"
+                    xmlns:mcore="clr-namespace:Mvvm.Core"
+                    xmlns:controls="clr-namespace:Controls">
+
+    <Style TargetType="{x:Type controls:RegistersEditorControl}">
+        <Setter Property="Width" Value="230"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:RegistersEditorControl}">
+                    <GroupBox x:Name="registersGroupBox" Width="{TemplateBinding Width}" Header="Регистры" 
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <StackPanel Margin="10">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition SharedSizeGroup="registersGroup1"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Номер"/>
+                                <TextBox x:Name="startReg" Grid.Column="1" Height="22" VerticalContentAlignment="Center" Padding="3,0,0,0">
+                                    <mcore:Interaction.Behaviors>
+                                        <mcore:NumericValidationBehavior x:Name="startRegBehavior" MinValue="0" MaxValue="300"
+                                                                        Value="{Binding RegNumber, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}, Converter={mvvm:IntToUint16Converter}}"
+                                                                        IsValid="{Binding StartRegValid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBlock Grid.Row="2" Text="Количество"/>
+                                <ComboBox x:Name="regsQuantity" Grid.Row="2" Grid.Column="1" SelectedIndex="0" 
+                                              HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                              ItemsSource="{Binding Source={x:Static controls:RegistersEditorControl.RegisterNumbers}}"
+                                              SelectedValue="{Binding Quantity, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </Grid>
+                            <Grid>
+                                <Grid.Resources>
+                                    <Style TargetType="RowDefinition">
+                                        <Setter Property="Height" Value="22"/>
+                                    </Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                    <Style x:Key="RegisterValueStyle" TargetType="TextBox">
+                                        <Style.Setters>
+                                            <Setter Property="Text" Value="0"/>
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                        </Style.Setters>
+                                    </Style>
+                                </Grid.Resources>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="15"/>
+                                    <ColumnDefinition Width="3*" SharedSizeGroup="registersGroup1"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="15"/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Separator Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,2,0,0"/>
+
+                                <TextBlock x:Name="Reg_Number1" Grid.Row="1" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=0}}"/>
+                                <TextBlock x:Name="Reg_Number2" Grid.Row="2" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=1}}"/>
+                                <TextBlock x:Name="Reg_Number3" Grid.Row="3" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=2}}"/>
+                                <TextBlock x:Name="Reg_Number4" Grid.Row="4" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=3}}"/>
+                                <TextBlock x:Name="Reg_Number5" Grid.Row="5" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=4}}"/>
+                                <TextBlock x:Name="Reg_Number6" Grid.Row="6" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=5}}"/>
+                                <TextBlock x:Name="Reg_Number7" Grid.Row="7" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=6}}"/>
+                                <TextBlock x:Name="Reg_Number8" Grid.Row="8" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=7}}"/>
+                                <TextBlock x:Name="Reg_Number9" Grid.Row="9" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=8}}"/>
+                                <TextBlock x:Name="Reg_Number10" Grid.Row="10" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=9}}"/>
+                                <TextBlock x:Name="Reg_Number11" Grid.Row="11" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=10}}"/>
+                                <TextBlock x:Name="Reg_Number12" Grid.Row="12" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=11}}"/>
+                                <TextBlock x:Name="Reg_Number13" Grid.Row="13" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=12}}"/>
+                                <TextBlock x:Name="Reg_Number14" Grid.Row="14" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=13}}"/>
+                                <TextBlock x:Name="Reg_Number15" Grid.Row="15" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=14}}"/>
+                                <TextBlock x:Name="Reg_Number16" Grid.Row="16" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=15}}"/>
+                                <TextBlock x:Name="Reg_Number17" Grid.Row="17" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=16}}"/>
+                                <TextBlock x:Name="Reg_Number18" Grid.Row="18" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=17}}"/>
+                                <TextBlock x:Name="Reg_Number19" Grid.Row="19" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=18}}"/>
+                                <TextBlock x:Name="Reg_Number20" Grid.Row="20" FontWeight="Bold"
+                                           Text="{Binding ElementName=startRegBehavior, Path=Value, Converter={mvvm:NumericToRegNumberConverter Offset=19}}"/>
+                                <TextBox x:Name="Reg_Value1" Grid.Row="1" Grid.Column="2" Style="{StaticResource RegisterValueStyle}" >
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior1" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg1Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg1Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value2" Grid.Row="2" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior2" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg2Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg2Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value3" Grid.Row="3" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior3" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg3Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg3Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value4" Grid.Row="4" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior4"  RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg4Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg4Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value5" Grid.Row="5" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior5" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg5Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg5Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value6" Grid.Row="6" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior6" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg6Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg6Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value7" Grid.Row="7" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior7" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg7Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg7Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value8" Grid.Row="8" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior8" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg8Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg8Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value9" Grid.Row="9" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior9" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg9Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg9Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value10" Grid.Row="10" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior10" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg10Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg10Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value11" Grid.Row="11" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior11" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg11Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg11Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value12" Grid.Row="12" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior12" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg12Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg12Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value13" Grid.Row="13" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior13"  RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg13Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg13Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value14" Grid.Row="14" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior14" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg14Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg14Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value15" Grid.Row="15" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior15" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg15Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg15Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value16" Grid.Row="16" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior16" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg16Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg16Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value17" Grid.Row="17" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior17" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg17Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg17Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value18" Grid.Row="18" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior18" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg18Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg18Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value19" Grid.Row="19" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior19" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg19Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg19Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <TextBox x:Name="Reg_Value20" Grid.Row="20" Grid.Column="2" Style="{StaticResource RegisterValueStyle}">
+                                    <mcore:Interaction.Behaviors>
+                                        <mvvm:RegisterValidationBehavior x:Name="Reg_Behavior20" RegistersQuantity="{Binding SelectedValue, ElementName=regsQuantity}"
+                                                           ViewMode="{Binding SelectedValue, ElementName=viewFormat}"
+                                                           RegValue="{Binding Reg20Value, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                           IsValid="{Binding Reg20Valid, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </mcore:Interaction.Behaviors>
+                                </TextBox>
+                                <ComboBox x:Name="viewFormat" Grid.Row="22" Grid.Column="2" ItemsSource="{Binding Source={x:Static controls:RegistersEditorControl.ViewModes}}" 
+                                        SelectedIndex="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
