@@ -34,7 +34,7 @@ namespace Mvvm.ViewModels {
 
         #endregion
 
-        public ICommand CalculateCommand { get; private set; }
+        public ICommand CalculateCommand { get; private set; } 
 
         void Calculate() {
             switch(ChannelType) {
