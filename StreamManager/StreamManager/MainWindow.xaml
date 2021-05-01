@@ -23,7 +23,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/> 
             </Grid.ColumnDefinitions>
             <TabControl x:Name="tabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                     SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}" Margin="0,0,5,0">
