@@ -112,7 +112,7 @@ namespace Modbus.Core {
             }
             return outputData;
         }
-        List<byte> CreateTransmitData() {
+        List<byte> CreateTransmitData() { 
             var result = new List<byte>();
             result.Add(deviceAddress);
             result.Add(readFunction);
