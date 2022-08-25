@@ -1,0 +1,49 @@
+﻿<Window x:Class="TiltsVisualizerLight.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:TiltsVisualizerLight.ViewModels"
+        xmlns:controls="clr-namespace:TiltsVisualizerLight.Controls"
+        xmlns:mcore="clr-namespace:Mvvm.Core"
+        xmlns:behav="clr-namespace:TiltsVisualizerLight.Behaviors"
+        xmlns:local="clr-namespace:TiltsVisualizerLight"
+        xmlns:pages="clr-namespace:TiltsVisualizerLight.Pages"                 
+        mc:Ignorable="d"
+        ResizeMode="CanMinimize"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Icon="Shelfs.ico"
+        Title="Многозонный инклинометр. АО &quot;Техно-Т&quot;, 2022 г. " Height="750" Width="1000">
+    <Window.DataContext>
+        <viewModels:MainViewModel x:Name="viewModel"/>
+    </Window.DataContext>
+
+    <!--<dx:ThemedWindow.HeaderItems>
+        <controls:WindowHeaderContentControl IsConnectOk="{Binding IsConnectOk}"/>
+    </dx:ThemedWindow.HeaderItems>-->
+
+    <!--<mcore:Interaction.Behaviors>
+        <mcore:SerialPortBehavior AllowPort="{Binding AllowTerminal}" 
+                                  Config="{Binding SerialPortConfig}" TerminalMode="True" 
+                                  ReceiveTerminalData="{Binding ReceivedData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  TransmitTerminalData="{Binding TransmittedData, Mode=TwoWay}"
+                                  TerminalMessageLength="{Binding TerminalMessageLength}"/>
+    </mcore:Interaction.Behaviors>-->
+
+    <Grid Margin="2" >
+        <TabControl SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}" x:Name="TabControl">
+            <TabItem Header="Схема">
+                <pages:SummaryView MainViewModel="{Binding ElementName=viewModel, Mode=OneWay}"/>
+            </TabItem>
+            <TabItem Header="Монитор-конфигуратор">
+                <pages:UniversalConfigurationView MainViewModel="{Binding ElementName=viewModel, Mode=OneWay}" VerticalAlignment="Stretch"/>
+            </TabItem>
+        </TabControl>
+        <!--<dxb:ToolBarControl Caption="Main Toolbar" BarItemHorizontalIndent="10" HorizontalAlignment="Right">
+            <dxb:BarButtonItem Content="hello"/>
+        </dxb:ToolBarControl>-->
+    </Grid>
+</Window>
+

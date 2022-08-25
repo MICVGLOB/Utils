@@ -1,0 +1,228 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mcore="clr-namespace:Mvvm.Core"
+                    xmlns:controls="clr-namespace:TiltsVisualizerLight.Controls">
+
+    <Style TargetType="{x:Type controls:SensorViewer}">
+        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="4,0,4,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:SensorViewer}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <Grid Margin="{TemplateBinding Padding}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="16"/>
+                            </Grid.RowDefinitions>
+                            <Ellipse Grid.RowSpan="2" Stretch="Uniform"   
+                                 Fill="{Binding Info.State, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:SensorStateToBrushConverter}}"
+                                 Height="12" Width="12" Margin="1,1,3,1"/>
+                            <TextBlock Grid.Column="1" FontSize="10" Text="{Binding Info.Name, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type controls:ShelfControl}">
+        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="4,0,4,0"/>
+        <Setter Property="Width" Value="200"/>
+        <Setter Property="Height" Value="100"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:ShelfControl}">
+                    <Grid Margin="{TemplateBinding Padding}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <controls:SensorViewer VerticalAlignment="Bottom" Info="{Binding Sensors[0], RelativeSource={RelativeSource TemplatedParent}}"/>
+                        <controls:SensorViewer Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                                                Info="{Binding Sensors[2], RelativeSource={RelativeSource TemplatedParent}}"/>
+                        <controls:SensorViewer Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center"
+                                                Info="{Binding Sensors[1], RelativeSource={RelativeSource TemplatedParent}}"/>
+                        <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="1" Grid.ColumnSpan="3"
+                                Background="Gray"/>
+                        <TextBlock Text="{TemplateBinding ShelfName}" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="3" Foreground="White"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style TargetType="{x:Type controls:TiltViewControl}">
+        <Setter Property="Padding" Value="10,0,0,0"/>
+        <Setter Property="BorderBrush" Value="LightGray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:TiltViewControl}">
+                    <Border Margin="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="White">
+                        <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Background="Transparent">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+                            <Viewbox Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,1,0,0" ToolTip="{Binding Tilt.DisplayTemperature, RelativeSource={RelativeSource TemplatedParent}}">
+                                <Canvas x:Name="Canvas" Background="Transparent" 
+                                    Height="{Binding CanvasSize.Height, RelativeSource={RelativeSource TemplatedParent}}" 
+                                    Width="{Binding CanvasSize.Width, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <Line X1="0" X2="{Binding CanvasSize.Width, RelativeSource={RelativeSource TemplatedParent}}"
+                                      Y1="{Binding CanvasSize.Height, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:PositionConverter Multiplier=0.5}}"
+                                      Y2="{Binding Y1, RelativeSource={RelativeSource Self}}" Stroke="Gray" StrokeThickness="1"/>
+                                    <Line Y1="0" Y2="{Binding CanvasSize.Height, RelativeSource={RelativeSource TemplatedParent}}"
+                                      X1="{Binding CanvasSize.Width, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:PositionConverter Multiplier=0.5}}"
+                                      X2="{Binding X1, RelativeSource={RelativeSource Self}}" Stroke="Gray" StrokeThickness="1"/>
+                                    <Ellipse x:Name="label0" 
+                                         Height="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Width="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Left="{Binding TiltLabels[0].XPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Top="{Binding TiltLabels[0].YPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Fill="{Binding TiltLabels[0].State, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:LabelStateToBrushConverter}}"/>
+                                    <Ellipse x:Name="label1" 
+                                         Height="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Width="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Left="{Binding TiltLabels[1].XPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Top="{Binding TiltLabels[1].YPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Fill="{Binding TiltLabels[1].State, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:LabelStateToBrushConverter}}"/>
+                                    <Ellipse x:Name="label2" 
+                                         Height="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Width="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Left="{Binding TiltLabels[2].XPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Top="{Binding TiltLabels[2].YPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Fill="{Binding TiltLabels[2].State, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:LabelStateToBrushConverter}}"/>
+                                    <Ellipse x:Name="label3" 
+                                         Height="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Width="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Left="{Binding TiltLabels[3].XPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Top="{Binding TiltLabels[3].YPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Fill="{Binding TiltLabels[3].State, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:LabelStateToBrushConverter}}"/>
+                                    <Ellipse x:Name="label4" 
+                                         Height="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Width="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Left="{Binding TiltLabels[4].XPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Top="{Binding TiltLabels[4].YPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Fill="{Binding TiltLabels[4].State, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:LabelStateToBrushConverter}}"/>
+                                    <Ellipse x:Name="label5" 
+                                         Height="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Width="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Left="{Binding TiltLabels[5].XPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Top="{Binding TiltLabels[5].YPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Fill="{Binding TiltLabels[5].State, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:LabelStateToBrushConverter}}"/>
+                                    <Ellipse x:Name="label6" 
+                                         Height="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Width="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Left="{Binding TiltLabels[6].XPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Top="{Binding TiltLabels[6].YPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Fill="{Binding TiltLabels[6].State, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:LabelStateToBrushConverter}}"/>
+                                    <Ellipse x:Name="label7" 
+                                         Height="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Width="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Left="{Binding TiltLabels[7].XPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Top="{Binding TiltLabels[7].YPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Fill="{Binding TiltLabels[7].State, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:LabelStateToBrushConverter}}"/>
+                                    <Ellipse x:Name="label8" 
+                                         Height="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Width="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Left="{Binding TiltLabels[8].XPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Top="{Binding TiltLabels[8].YPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Fill="{Binding TiltLabels[8].State, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:LabelStateToBrushConverter}}"/>
+                                    <Ellipse x:Name="label9" 
+                                         Height="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Width="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Left="{Binding TiltLabels[9].XPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Top="{Binding TiltLabels[9].YPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Fill="{Binding TiltLabels[9].State, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:LabelStateToBrushConverter}}"/>
+                                    <Ellipse x:Name="label10" 
+                                         Height="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Width="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Left="{Binding TiltLabels[10].XPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Top="{Binding TiltLabels[10].YPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Fill="{Binding TiltLabels[10].State, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:LabelStateToBrushConverter}}"/>
+                                    <Ellipse x:Name="label11" 
+                                         Height="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Width="{Binding LabelSize, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Left="{Binding TiltLabels[11].XPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Canvas.Top="{Binding TiltLabels[11].YPosition, RelativeSource={RelativeSource TemplatedParent}}" 
+                                         Fill="{Binding TiltLabels[11].State, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:LabelStateToBrushConverter}}"/>
+                                    <Line X1="{Binding CanvasSize.Width, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:PositionConverter Multiplier=0.5}}"
+                                      Y1="{Binding CanvasSize.Height, RelativeSource={RelativeSource TemplatedParent}, Converter={controls:PositionConverter Multiplier=0.5}}"                                      
+                                      X2="{Binding ArrowPosition.X, RelativeSource={RelativeSource TemplatedParent}}" 
+                                      Y2="{Binding ArrowPosition.Y, RelativeSource={RelativeSource TemplatedParent}}"                                   
+                                      Stroke="Gray" StrokeThickness="2"/>
+                                </Canvas>
+                            </Viewbox>
+                            <TextBlock Grid.Row="1" Text="Наклон" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Tilt.Gravity, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:#0.## °}}"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type controls:WindowHeaderContentControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:WindowHeaderContentControl}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{TemplateBinding StateText}" VerticalAlignment="Center"/>
+                        <Border Height="16" Width="30" Background="{TemplateBinding StateBrush}" Margin="5,0,10,0"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type controls:SerialPortControl}">
+        <Setter Property="Width" Value="200"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:SerialPortControl}">
+                    <GroupBox x:Name="SerialPortGroupBox" Width="{TemplateBinding Width}" Header="COM-порт"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                        <StackPanel Margin="10">
+                            <ComboBox x:Name="PART_ComSelector" ItemsSource="{Binding Ports, RelativeSource={RelativeSource TemplatedParent}}"
+                                      SelectedItem="{Binding SelectedPort, RelativeSource={RelativeSource TemplatedParent}}"
+                                      IsEnabled="{Binding HasPorts, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <Grid Margin="0,7,0,5">
+                                <TextBlock x:Name="PART_StatusText" Grid.Column="1" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
+                            </Grid>
+                            <ProgressBar x:Name="PART_ProgressBar" Margin="0,5,0,10" Height="20"
+                                         IsEnabled="{Binding HasPorts, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <Button x:Name="PART_CancelButton" Content="Отменить" Command="{Binding CancelCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </StackPanel>
+                    </GroupBox>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>    
+    
+    
+</ResourceDictionary>

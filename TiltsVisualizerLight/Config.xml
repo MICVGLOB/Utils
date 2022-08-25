@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TiltsVisualizerLight>
+	<SerialPort>
+		<Name>COM7</Name>
+		<TerminalBaudrate>115200</TerminalBaudrate>
+		<ModbusBaudrate>9600</ModbusBaudrate>
+		<StopBits>One</StopBits>
+		<Parity>None</Parity>
+	</SerialPort>
+</TiltsVisualizerLight>

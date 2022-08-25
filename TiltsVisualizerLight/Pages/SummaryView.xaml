@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="TiltsVisualizerLight.Pages.SummaryView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+      xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"               
+      xmlns:viewModels="clr-namespace:TiltsVisualizerLight.ViewModels"
+      xmlns:mcore="clr-namespace:Mvvm.Core"
+      xmlns:mvvm="clr-namespace:Mvvm"
+      xmlns:controls="clr-namespace:TiltsVisualizerLight.Controls"
+      xmlns:behav="clr-namespace:TiltsVisualizerLight.Behaviors"
+      xmlns:local="clr-namespace:TiltsVisualizerLight"                       
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="500">
+    <UserControl.DataContext>
+        <viewModels:SummaryViewViewModel/>
+    </UserControl.DataContext>
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <controls:ShelfControl Sensors="{Binding Shelfs[0].Sensors}" ShelfName="{Binding Shelfs[0].Name}" Grid.RowSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" >
+            <controls:ShelfControl.LayoutTransform>
+                <RotateTransform Angle="70"/>
+            </controls:ShelfControl.LayoutTransform>
+        </controls:ShelfControl>
+        <controls:ShelfControl Grid.Column="1" Sensors="{Binding Shelfs[1].Sensors}" ShelfName="{Binding Shelfs[1].Name}" />
+        <controls:ShelfControl Grid.Row="1" Grid.Column="1" Sensors="{Binding Shelfs[2].Sensors}" ShelfName="{Binding Shelfs[2].Name}" />
+        <controls:ShelfControl Grid.Row="2" Grid.Column="1" Sensors="{Binding Shelfs[3].Sensors}" ShelfName="{Binding Shelfs[3].Name}" />
+        <controls:ShelfControl Grid.RowSpan="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Sensors="{Binding Shelfs[4].Sensors}" ShelfName="{Binding Shelfs[4].Name}" >
+            <controls:ShelfControl.LayoutTransform>
+                <RotateTransform Angle="-70"/>
+            </controls:ShelfControl.LayoutTransform>
+        </controls:ShelfControl>
+        <TextBox Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                 ScrollViewer.CanContentScroll="True" FontSize="11" IsReadOnly="True" IsReadOnlyCaretVisible="False"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <mcore:Interaction.Behaviors>
+                <behav:TextBoxBehavior x:Name="textBoxBehavior" AppendTextCommand="{Binding AppendTextCommand, Mode=OneWayToSource}"
+                                              ClearCommand="{Binding Command, ElementName=clearButton, Mode=OneWayToSource}"/>
+            </mcore:Interaction.Behaviors>
+        </TextBox>
+        <Button x:Name="clearButton" Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Right" Width="80" Margin="0,4,0,4" Content="Очистить"/>
+    </Grid>
+
+
+</UserControl>
